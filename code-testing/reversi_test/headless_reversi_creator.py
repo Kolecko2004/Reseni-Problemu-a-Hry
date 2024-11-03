@@ -1,7 +1,7 @@
 import random_player
 from game_board import GameBoard
 import time, getopt, sys
-import reversi_test.player as player
+import player as player
 
 class HeadlessReversiCreator(object):
     '''
