@@ -3,6 +3,7 @@
 # 8 9 1 0
 import random
 
+
 class My_class:
 
     def print_data(array):
@@ -21,7 +22,7 @@ class My_class:
 
         for i in range(len(array)):
             for s in range(len(array[i])):
-                print(f"{array[i][s]:len_max}", end =" ")
+                print(f"{array[i][s]:len_max}", end=" ")
             print('')
 
     def generate_data(n_rows, n_cols):
@@ -30,6 +31,7 @@ class My_class:
             for s in range(n_cols):
                 array[i][s] = random.randint(0, 1)
         return (array)
+
 
 if __name__ == "__main__":
     data = [[6, 3, 2, 4,], [5000, 1, 6, 3], [-8000, 9, 1, 0]]

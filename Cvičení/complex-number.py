@@ -1,15 +1,16 @@
 class ComplexNumber:
     '''Metoda objektu, vol8 se jenom s dv2ma parametry self se nevol8'''
+
     def __init__(self, re, im):
         self.re = re
         self.im = im
 
     def to_string(self):
         return "%.2f + %2fi" % (self.re, self.im)
-    
+
     def size(self):
         return (self.re ** 2 + self.im ** 2) ** (1/2)
-    
+
     def inc_parts(self, re, im):
         self.re += re
         self.im += im
@@ -20,9 +21,10 @@ class ComplexNumber:
 
     def __add__(self, other):
         return ComplexNumber(self.re+other.re, self.im + other.im)
-    
+
     def __str__(self):
         return self.to_string()
+
 
 if __name__ == "__main__":
     a = ComplexNumber(3, 4)
