@@ -8,7 +8,7 @@ def line_size(row, column, data):
     vl = True
     vr = True
 
-    while vl or vr :
+    while vl or vr:
         vl = False
         vr = False
         if column + i < max_rows and data[row][column + i] == main_value:
@@ -29,22 +29,22 @@ def line_size(row, column, data):
         if data[row - i][column] == main_value:
             horizontal_size += 1
         i += 1'''
-        
+
     print(f"{vertical_size}x - [{main_value}] on the vertical line")
-    #print(f"{horizontal_size}x - [{main_value}] on the horizontal line")
+    # print(f"{horizontal_size}x - [{main_value}] on the horizontal line")
 
 
 if __name__ == '__main__':
     a = 7
     b = 5
     c = [
-    [0, 1, 1, 1, 1, 0, 0, 0 ],
-    [1, 1, 0, 1, 0, 1, 1, 1 ],
-    [0, 1, 1, 0, 0, 1, 0, 1 ],
-    [1, 1, 1, 0, 1, 1, 0, 1 ],
-    [0, 1, 0, 0, 0, 0, 1, 1 ],
-    [1, 0, 1, 1, 0, 0, 0, 0 ],
-    [0, 1, 1, 1, 0, 1, 1, 1 ],
-    [1, 1, 0, 1, 0, 1, 1, 1 ]]
+        [0, 1, 1, 1, 1, 0, 0, 0],
+        [1, 1, 0, 1, 0, 1, 1, 1],
+        [0, 1, 1, 0, 0, 1, 0, 1],
+        [1, 1, 1, 0, 1, 1, 0, 1],
+        [0, 1, 0, 0, 0, 0, 1, 1],
+        [1, 0, 1, 1, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0, 1, 1, 1],
+        [1, 1, 0, 1, 0, 1, 1, 1]]
 
     line_size(a, b, c)

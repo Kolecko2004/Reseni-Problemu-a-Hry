@@ -5,7 +5,7 @@ def value_count(data, value):
             if s == value:
                 count += 1
     return count
-    
+
 
 def value_positions(data, value):
     array = []
@@ -16,12 +16,13 @@ def value_positions(data, value):
             k += 1
             if s == value:
                 array.append((i, k - 1))
-                    
+
     return array
+
 
 if __name__ == "__main__":
     value = 0
-    data = [(0, -1, 1),(-1, 0, -1),(1, 0, 0)]
+    data = [(0, -1, 1), (-1, 0, -1), (1, 0, 0)]
     final = value_count(data, value)
     print(final)
     positions = value_positions(data, value)

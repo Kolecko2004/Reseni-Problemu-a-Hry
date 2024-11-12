@@ -34,27 +34,31 @@ muzeme ho indexovat
     - BOOK - the art of unix programing
     
 '''
-def squared_sequence(start, stop, step=1): # fin=bonacio sekvence funkce
+
+
+def squared_sequence(start, stop, step=1):  # fin=bonacio sekvence funkce
     num = start
     while num < stop:
         yield num ** 2
         num += step
+
 
 def generate_fib(n):
     a, b = (0, 1)
     for _ in range(n):
         yield a
         a, b = (b, a + b)
-        
+
+
 if __name__ == '__main__':
     for num in generate_fib(10):
         print(num)
-    
+
     s1 = squared_sequence(10, 15, 2)
-    s2 = (x ** 2 for x in range(10, 15, 2)) # list comprehension
-    
+    s2 = (x ** 2 for x in range(10, 15, 2))  # list comprehension
+
     r1 = s1 == s2
     r2 = list(s1) == list(s2)
-    
+
     print(r1)
     print(r2)

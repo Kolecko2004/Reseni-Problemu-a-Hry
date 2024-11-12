@@ -31,6 +31,7 @@ Prednaska cislo 5
     - Generátor seznamu na základě nějaké podmínky
     '''
 
+import time
 a = [x ** 2 for x in range(-10, 10)]
 print(a)
 
@@ -48,8 +49,7 @@ print(b)
     - 3 * [1, 2] == [1, 2, 1, 2, 1, 2]
     - Jak měřit rychlost kódu
     '''
-import time
-        
+
 t_start = time.time()
 
 a = [x ** 2 for x in range(-10, 10)]
@@ -59,7 +59,7 @@ fruit = ['apple', 'banana', 'lemon', 'plum', 'watermelon']
 
 b = [f for f in fruit if 'a' in f]
 print(b)
-        
+
 print(f'Time spent doing the program {time.time() - t_start}')
 
 '''
