@@ -1,7 +1,7 @@
 from rosemary import Item, update
 
 
-# n ormal item
+# normal item
 
 # test days_left
 
@@ -40,6 +40,11 @@ def test_normal_item_quality_decrease_when_less_than_1_days_left():
     update(item)
     return item.quality == 3
 
+def test_normal_item_quality_decrease_when_less_than_1_days_left_and_quality_is_0():
+    item = Item('Bread', days_left=0, quality=0)
+    update(item)
+    return item.quality == 0 and item.days_left  == -1
+
 
 def test_normal_item_quality_not_less_than_0():
     item = Item('Bread', days_left=5, quality=1)
@@ -59,6 +64,7 @@ def test_name_is_not_changing_after_update():
     item = Item(item_name, days_left=2, quality=2)
     update(item)
     return item.name == item_name
+
 
 def test_normal_item_quality_when_less_than_0_days():
     item = Item('Bread', days_left=-1, quality=30)
@@ -110,9 +116,9 @@ def test_cheese_item_quality_is_more_than_50():
 
 
 def test_cheese_item_days_left_less_than_0():
-    item = Item('Aged Brie', days_left=-1, quality=3)
+    item = Item('Aged Brie', days_left=0, quality=3)
     update(item)
-    return item.quality == 4
+    return item.quality == 4 and item.days_left == -1
 
 
 def test_cheese_item_quality_0_incerease():
@@ -130,21 +136,27 @@ def test_tickets_item_name_change():
 
 
 def test_tickets_item_quality_is_more_than_50_when_10_days():
-    item = Item('Tickets', days_left=10, quality=50)
-    update(item)
-    return item.quality == 50
+    tickets_days_left = {11, 12, 13, 49, 48}
+    for i in tickets_days_left:
+        item = Item('Tickets', days_left=i, quality=50)
+        update(item)
+        return item.quality == 50
 
 
 def test_tickets_item_quality_is_more_than_50_when_6_days():
-    item = Item('Tickets', days_left=6, quality=50)
-    update(item)
-    return item.quality == 50
+    tickets_days_left = {6, 7, 8, 9, 10}
+    for i in tickets_days_left:
+        item = Item('Tickets', days_left=i, quality=50)
+        update(item)
+        return item.quality == 50
 
 
 def test_tickets_item_quality_is_more_than_50_when_1_days():
-    item = Item('Tickets', days_left=6, quality=50)
-    update(item)
-    return item.quality == 50
+    tickets_days_left = {1, 2, 3, 4, 5}
+    for i in tickets_days_left:
+        item = Item('Tickets', days_left=i, quality=50)
+        update(item)
+        return item.quality == 50
 
 
 def test_tickets_item_quality_increase_more_than_10_days_left():
