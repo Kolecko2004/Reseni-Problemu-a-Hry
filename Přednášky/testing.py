@@ -1,7 +1,7 @@
 from tools import sum_digits
 import sys
 
-def assert_equal(observed, expected):
+'''def assert_equal(observed, expected):
     observed = sum_digits("")
     expected = 0
     if observed == expected:
@@ -15,9 +15,9 @@ def assert_equal(observed, expected):
 
 def run_tests():
     frame = sys._getframe(1)
-    for symbol, value in fra,e.f_globals.items():
+    for symbol, value in free.f_globals.items():
         if symbol.startswith("test_"):
             test_func = value
             result.append(test_func())
         print("========= Test Results")
-        print(f'{len(results)}test ran')
+        print(f'{len(results)}test ran')'''
