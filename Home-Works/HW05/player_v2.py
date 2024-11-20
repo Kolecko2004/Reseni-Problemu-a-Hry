@@ -20,10 +20,12 @@ class MyPlayer:
             x, y = move
             if x == 0 or x == self.board_size - 1 or y == 0 or y == self.board_size - 1:
                 return move
+            
+    #def move_ahead(self):  
 
     def bad_moves(self):
         bad_positions = [(0, 1), (1, 0), (1, 1), (0, 6), (1, 6),
-                         (1, 7), (6, 0), (6, 1), (7, 1), (6, 7), (6, 6), (7, 6)]
+                        (1, 7), (6, 0), (6, 1), (7, 1), (6, 7), (6, 6), (7, 6)]
         bad_count = 0
 
         for i in bad_positions:
@@ -51,15 +53,19 @@ class MyPlayer:
         if len(self.move) == 0:
             return
 
-        a = self.move_corners()
-        if a != None:
-            return a
+        result = self.move_corners()
+        if result != None:
+            return result
 
-        a = self.move_sides()
-        if a != None:
-            return a
+        result = self.move_sides()
+        if result != None:
+            return result
+        
+        result = self.move_ahead()
+        if result != None:
+            return result
 
-        if self.round_num < 9:
+        if self.round_num < 20:
             if not self.points_for_move:
                 return None
             min_p_move = self.points_for_move.index(min(self.points_for_move))
