@@ -44,6 +44,30 @@ class MyMatrix:
                     print(f'{i}\n')
         
         self.file.close()
+        
+    def save_text(self, text, filename):
+        self.filesavetext = open(filename, mode='a', encoding='UTF-8')
+        
+        self.filesavetext.write(f'{text}\n')
+        
+        self.filesavetext.close
+        
+    def read_n_rewrite(self, text, filename):
+        self.reading = open(filename, encoding='UTF-8')
+        
+        whole = self.reading.read()
+        
+        print(whole)
+        
+        whole += text + '\n'
+        
+        print(whole)
+        
+        self.writeing = open(filename, mode='w', encoding='UTF-8')
+        
+        self.writeing.write(whole)
+        self.reading.close()
+        self.writeing.close()
 
 def count_chars_in_string(s):
     dictionary = {}
@@ -58,17 +82,19 @@ def count_chars_in_file(filename):
     whole_txt = file.read()
     char_num = 0
     for i in whole_txt:
-        if i == '\n' or i == ' ':
+        if i != '\n' and i != ' ':
             char_num += 1
     file.close()
     return char_num
 
 if __name__ == "__main__":
-    a = MyMatrix([[1, 2, 3], [2, 3, 4]])
+    a = MyMatrix([[1, 2, 3], [2, 3, 4], [5, 6, 7]])
     a.save("matrix.txt")
+    a.save_text("hello how are you", "hello.txt")
+    a.read_n_rewrite("this is rewrite", "hello.txt")
     b = MyMatrix()
     b.load('matrix.txt')
     s = 'Ahoj jak se mas?'
     
     print(count_chars_in_string(s))
-    print(count_chars_in_file("kk.txt"))
+    print(count_chars_in_file('matrix.txt'))
