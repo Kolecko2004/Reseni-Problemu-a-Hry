@@ -28,35 +28,45 @@ class MyPlayer:
 
     def erase_bad_moves(self):
         # bad positions are those that give opponent chance to get into a corner or border
-        bad_positions = [(0, 1), (1, 0), (1, 1), (0, 6), (1, 6),
+        worst_positions = [(0, 1), (1, 0), (1, 1), (0, 6), (1, 6),
                         (1, 7), (6, 0), (6, 1), (7, 1), (6, 7), (6, 6), (7, 6)]
         bad_moves_count = 0
+        worst_moves_count = 0
 
         for pos_move in self.all_poss_moves:
-            if pos_move in bad_positions:
+            x, y = pos_move
+            if x == 1 or x == self.board_size - 2 or y == 1 or y == self.board_size - 2:
                 bad_moves_count += 1
-
+            if pos_move in worst_positions:
+                worst_moves_count += 1
+                
+        if worst_moves_count < len(self.all_poss_moves):
+            for worst_pos in worst_positions:
+                if worst_pos in self.all_poss_moves:
+                    self.points_for_move.pop(self.all_poss_moves.index(worst_pos))
+                    self.all_poss_moves.remove(worst_pos)   
+                    
         if bad_moves_count < len(self.all_poss_moves):
-            for bad_pos in bad_positions:
-                if bad_pos in self.all_poss_moves:
-                    self.points_for_move.pop(self.all_poss_moves.index(bad_pos))
-                    self.all_poss_moves.remove(bad_pos)
+            for move in self.all_poss_moves:
+                x, y = move
+                if x == 1 or x == self.board_size - 2 or y == 1 or y == self.board_size - 2:
+                    self.points_for_move.pop(self.all_poss_moves.index(move))
+                    self.all_poss_moves.remove(move)        
 
     def select_move(self, board):
         self.round += 1
         self.points_for_move = []
         self.all_poss_moves = []
         self.board = board
-
         self.find_positions()
         self.find_moves(self.all_poss_moves, self.points_for_move)
-        self.del_invalid_moves()  # double check if moves are all possible
-        self.erase_bad_moves()
         # print(self.all_poss_moves, 'my moves')
 
         if len(self.all_poss_moves) == 0:
             return
-
+        
+        self.erase_bad_moves()
+        
         result = self.pick_corner_move(self.all_poss_moves)
         if result != None:
             return result
@@ -73,7 +83,7 @@ class MyPlayer:
             if not self.points_for_move:
                 return None
             min_p_move = self.points_for_move.index(min(self.points_for_move))
-            return self.all_poss_moves[min_p_move] # list index out of range
+            return self.all_poss_moves[min_p_move]
 
         else:
             if not self.points_for_move:
@@ -133,23 +143,11 @@ class MyPlayer:
             return True
         return False
 
-    def del_invalid_moves(self):
-        index = 0
-        for i in self.all_poss_moves:
-            index += 1
-            if index == len(self.all_poss_moves):
-                return
-            for s in i:
-                # print(i)
-                if s < 0 or s >= self.board_size:
-                    self.all_poss_moves.remove(i)
-                if i is self.my_positions:
-                    self.all_poss_moves.remove(i)
-
     def ahead_move(self):
-        points_moves_ahead = []
-        self.all_poss_new_moves = []
+        
         for move in self.all_poss_moves:
+            points_moves_ahead = []
+            self.all_poss_new_moves = []
             self.ahead_board = self.board
             self.play_move(move)
             self.find_positions()
