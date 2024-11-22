@@ -37,6 +37,7 @@ class HeadlessReversiCreator(object):
             startTime = time.time()
             move = self.current_player.select_move(self.board.get_board_copy())
             endTime = time.time()
+            moveTime = (endTime - startTime) * 1000
                 
             if move is None:
                 print('Player %d reurns None istead of a valid move. Move takes %.3f ms.' % (
