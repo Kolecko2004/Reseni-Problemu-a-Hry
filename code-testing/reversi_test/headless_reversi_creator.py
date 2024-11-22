@@ -126,7 +126,7 @@ if __name__ == "__main__":
         wins = 0
         loses = 0
         errs = 0
-        for i in range(100):
+        for i in range(1000):
             print('No arguments given.\nRunning game with two random players.')
             p1 = random_player.MyPlayer(p1_color, p2_color)
             p2 = player.MyPlayer(p2_color, p1_color)
