@@ -10,7 +10,6 @@ class MyPlayer(object):
         self.opponentColor = opponent_color
         self.moveCount = 1
         #self.move_i = 0
-        print('create random player')
         
     def select_move(self,board):
         boardSize = len(board)

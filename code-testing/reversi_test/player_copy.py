@@ -1,9 +1,12 @@
+from copy import deepcopy
+
+
 class MyPlayer:
     '''Hráč hraje tak, aby získal co nejméně kamenů a aby byl v rozích a na stranách'''
 
-    def __init__(self, my_color, opponent_color):
+    def __init__(self, my_color, opp_color):
         self.my_color = my_color
-        self.opponent_color = opponent_color
+        self.opp_color = opp_color
         self.nobody_field = -1
         self.board_size = 8
         self.round = 0
@@ -33,87 +36,86 @@ class MyPlayer:
         bad_moves_count = 0
         worst_moves_count = 0
 
-        for pos_move in self.all_poss_moves:
+        for pos_move in self.my_poss_moves:
             x, y = pos_move
             if x == 1 or x == self.board_size - 2 or y == 1 or y == self.board_size - 2:
                 bad_moves_count += 1
             if pos_move in worst_positions:
                 worst_moves_count += 1
                 
-        if worst_moves_count < len(self.all_poss_moves):
+        if worst_moves_count < len(self.my_poss_moves):
             for worst_pos in worst_positions:
-                if worst_pos in self.all_poss_moves:
-                    self.points_for_move.pop(self.all_poss_moves.index(worst_pos))
-                    self.all_poss_moves.remove(worst_pos)   
+                if worst_pos in self.my_poss_moves:
+                    self.delete_move(worst_pos) 
                     
-        if bad_moves_count < len(self.all_poss_moves):
-            for move in self.all_poss_moves:
+        if bad_moves_count < len(self.my_poss_moves):
+            for move in self.my_poss_moves:
                 x, y = move
                 if x == 1 or x == self.board_size - 2 or y == 1 or y == self.board_size - 2:
-                    self.points_for_move.pop(self.all_poss_moves.index(move))
-                    self.all_poss_moves.remove(move)        
+                    self.delete_move(move)   
 
     def select_move(self, board):
         self.round += 1
-        self.points_for_move = []
-        self.all_poss_moves = []
-        self.board = board
-        self.find_positions()
-        self.find_moves(self.all_poss_moves, self.points_for_move)
-        # print(self.all_poss_moves, 'my moves')
+        self.points_for_my_move = []
+        self.my_poss_moves = []
+        self.my_postions = []
+        self.board = deepcopy(board)
+        self.find_positions(self.my_postions, self.my_color, self.board)
+        self.find_moves(self.my_poss_moves, self.points_for_my_move, self.my_postions, self.board, self.opp_color)
+        # print(self.my_poss_moves, 'my moves')
 
-        if len(self.all_poss_moves) == 0:
+        if len(self.my_poss_moves) == 0:
             return
         
         self.erase_bad_moves()
+        self.del_moves_opp_corner()
         
-        result = self.pick_corner_move(self.all_poss_moves)
+        result = self.pick_corner_move(self.my_poss_moves)
         if result != None:
             return result
-
+        
+        result = self.pick_border_move(self.my_poss_moves)
+        if result != None:
+            return result
+        
         result = self.ahead_move()
         if result != None:
             return result
 
-        result = self.pick_border_move(self.all_poss_moves)
-        if result != None:
-            return result
-
         if self.round < 20:
-            if not self.points_for_move:
+            if not self.points_for_my_move:
                 return None
-            min_p_move = self.points_for_move.index(min(self.points_for_move))
-            return self.all_poss_moves[min_p_move]
+            min_p_move = self.points_for_my_move.index(min(self.points_for_my_move))
+            return self.my_poss_moves[min_p_move]
 
         else:
-            if not self.points_for_move:
+            if not self.points_for_my_move:
                 return None
-            max_p_move = self.points_for_move.index(max(self.points_for_move))
-            return self.all_poss_moves[max_p_move]
+            max_p_move = self.points_for_my_move.index(max(self.points_for_my_move))
+            return self.my_poss_moves[max_p_move]
 
-    def find_positions(self):
-        self.my_positions = []
+    def find_positions(self, positions, color, board):
         for position_y in range(self.board_size):
             for position_x in range(self.board_size):
-                if self.board[position_x][position_y] == self.my_color:
-                    self.my_positions.append(([position_x], [position_y]))
+                if board[position_x][position_y] == color:
+                    positions.append(([position_x], [position_y]))
 
-    def find_moves(self, moves, points_arr):
-        for index in range(len(self.my_positions)):
-            x = self.my_positions[index][0][0]
-            y = self.my_positions[index][1][0]
+    def find_moves(self, moves, points_arr, positions, board, opp_color):
+        for index in range(len(positions)):
+            x = positions[index][0][0]
+            y = positions[index][1][0]
 
-            self.main_cycle(x, y, 0, moves, points_arr)  # right
-            self.main_cycle(x, y, 1, moves, points_arr)  # down
-            self.main_cycle(x, y, 2, moves, points_arr)  # left
-            self.main_cycle(x, y, 3, moves, points_arr)  # up
+            self.main_cycle(x, y, 0, moves, points_arr, board, opp_color)  # right
+            self.main_cycle(x, y, 1, moves, points_arr, board, opp_color)  # down
+            self.main_cycle(x, y, 2, moves, points_arr, board, opp_color)  # left
+            self.main_cycle(x, y, 3, moves, points_arr, board, opp_color)  # up
 
-            self.main_cycle(x, y, 4, moves, points_arr)  # right-up
-            self.main_cycle(x, y, 5, moves, points_arr)  # left-down
-            self.main_cycle(x, y, 6, moves, points_arr)  # right-down
-            self.main_cycle(x, y, 7, moves, points_arr)  # left-up
+            self.main_cycle(x, y, 4, moves, points_arr, board, opp_color)  # right-up
+            self.main_cycle(x, y, 5, moves, points_arr, board, opp_color)  # left-down
+            self.main_cycle(x, y, 6, moves, points_arr, board, opp_color)  # right-down
+            self.main_cycle(x, y, 7, moves, points_arr, board, opp_color)  # left-up
 
-    def main_cycle(self, x, y, direction, moves, points_arr):
+    def main_cycle(self, x, y, direction, moves, points_arr, board, opp_color):
         x_pos = [1, 0, -1, 0, 1, -1, 1, -1]
         y_pos = [0, 1, 0, -1, -1, 1, 1, -1]
         x_size = x_pos[direction]
@@ -123,16 +125,16 @@ class MyPlayer:
 
         while self.is_inside(x, y, x_pos, y_pos, x_size, y_size, direction):
 
-            if self.board[x + x_size][y + y_size] == self.opponent_color:
+            if board[x + x_size][y + y_size] == opp_color:
                 # print(f'{x + x_pos[direction] + x_size}, {y + y_pos[direction] + y_size}')
 
                 points += 1
 
-                if self.board[x + x_pos[direction] + x_size][y + y_pos[direction] + y_size] == self.nobody_field:
+                if board[x + x_pos[direction] + x_size][y + y_pos[direction] + y_size] == self.nobody_field:
 
                     points_arr.append(points)
                     return moves.append((x + x_pos[direction] + x_size, y + y_pos[direction] + y_size))
-                    #return self.all_poss_moves.append((x + x_pos[direction] + x_size, y + y_pos[direction] + y_size))
+                    #return self.my_poss_moves.append((x + x_pos[direction] + x_size, y + y_pos[direction] + y_size))
                 x_size += x_pos[direction]
                 y_size += y_pos[direction]
             else:
@@ -144,14 +146,14 @@ class MyPlayer:
         return False
 
     def ahead_move(self):
-        
-        for move in self.all_poss_moves:
+        ahead_board = self.board
+        for move in self.my_poss_moves:
             points_moves_ahead = []
             self.all_poss_new_moves = []
-            self.ahead_board = self.board
-            self.play_move(move)
-            self.find_positions()
-            self.find_moves(self.all_poss_new_moves, points_moves_ahead)
+            my_positions_ahead = []
+            self.play_move(move, ahead_board)
+            self.find_positions(my_positions_ahead, self.my_color, ahead_board)
+            self.find_moves(self.all_poss_new_moves, points_moves_ahead, my_positions_ahead, ahead_board, self.opp_color)
             result = self.pick_corner_move(self.all_poss_new_moves)
             if result != None:
                 return move
@@ -160,42 +162,58 @@ class MyPlayer:
             if result != None:
                 return move
 
-    def play_move(self, move):
-        self.ahead_board[move[0]][move[1]] = self.my_color
+    def play_move(self, move, board):
+        board[move[0]][move[1]] = self.my_color
 
         dx = [-1, -1, -1, 0, 1, 1, 1, 0]
         dy = [-1, 0, 1, 1, 1, 0, -1, -1]
 
         for i in range(len(dx)):
-            if self.confirm_direction(move, dx[i], dy[i]):
+            if self.confirm_direction(move, dx[i], dy[i], board):
                 self.change_stones_in_direction(
-                    move, dx[i], dy[i])
+                    move, dx[i], dy[i], board)
 
-    def confirm_direction(self, move, dx, dy):
-        opponents_color = self.opponent_color
+    def confirm_direction(self, move, dx, dy, board):
+        opponents_color = self.opp_color
 
         posx = move[0]+dx
         posy = move[1]+dy
         if (posx >= 0) and (posx < self.board_size) and (posy >= 0) and (posy < self.board_size):
-            if self.ahead_board[posx][posy] == opponents_color:
+            if board[posx][posy] == opponents_color:
                 while (posx >= 0) and (posx < self.board_size) and (posy >= 0) and (posy < self.board_size):
                     posx += dx
                     posy += dy
                     if (posx >= 0) and (posx < self.board_size) and (posy >= 0) and (posy < self.board_size):
-                        if self.ahead_board[posx][posy] == self.nobody_field:
+                        if board[posx][posy] == self.nobody_field:
                             return False
-                        if self.ahead_board[posx][posy] == self.my_color:
+                        if board[posx][posy] == self.my_color:
                             return True
 
         return False
 
-    def change_stones_in_direction(self, move, dx, dy):
+    def change_stones_in_direction(self, move, dx, dy, board):
         posx = move[0]+dx
         posy = move[1]+dy
-        while (not (self.ahead_board[posx][posy] == self.my_color)):
-            self.ahead_board[posx][posy] = self.my_color
+        while (not (board[posx][posy] == self.my_color)):
+            board[posx][posy] = self.my_color
             posx += dx
             posy += dy
+            
+    def del_moves_opp_corner(self):
+        for move in self.my_poss_moves:
+            opp_positions= []
+            board = self.board
+            opp_moves = []
+            opp_points = []
+            self.play_move(move, board)
+            self.find_positions(opp_positions, self.opp_color, board)
+            self.find_moves(opp_moves, opp_points, opp_positions, board, self.my_color)
+            if self.pick_corner_move(opp_moves) != None and len(self.my_poss_moves) >= 2:
+                self.delete_move(move)
+                
+    def delete_move(self, move):
+        self.points_for_my_move.pop(self.my_poss_moves.index(move))
+        self.my_poss_moves.remove(move)
 
 
 if __name__ == "__main__":
