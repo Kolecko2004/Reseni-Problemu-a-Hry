@@ -3,7 +3,7 @@ from game_board import GameBoard
 import time
 import getopt
 import sys
-import player_best as player
+import player as player
 import colorama
 from colorama import Fore, Back, Style
 
@@ -113,7 +113,7 @@ if __name__ == "__main__":
         loses = 0
         draws = 0
         errs = 0
-        for i in range(100000):
+        for i in range(1000):
             #print('No arguments given.\nRunning game with two random players.')
             p1 = random_player.MyPlayer(p1_color, p2_color)
             p2 = player.MyPlayer(p2_color, p1_color)

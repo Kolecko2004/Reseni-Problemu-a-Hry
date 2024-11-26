@@ -22,7 +22,7 @@ class My_class:
 
         for i in range(len(array)):
             for s in range(len(array[i])):
-                print(f"{array[i][s]:len_max}", end=" ")
+                print(f"{array[i][s]}", end=" ")
             print('')
 
     def generate_data(n_rows, n_cols):
