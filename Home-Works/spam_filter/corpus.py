@@ -17,6 +17,7 @@ class Corpus:
             file = open(filepath, mode='r', encoding='UTF-8')
             body = file.read()
             yield filename, body
+            file.close()
         
     def filter_files(self):
         delete_list = []
