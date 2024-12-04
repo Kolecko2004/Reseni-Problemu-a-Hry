@@ -2,3 +2,7 @@ email01.txt OK
 email02.msg OK
 email03.txt SPAM
 email1234.txt OK
+email12344.msg SPAM
+email0343.txt SPAM
+email1234534.txt OK
+email122134.msg SPAM
