@@ -13,4 +13,4 @@ def read_classification_from_file(filename):
     return email_OK_SPAM
     
 if __name__ == "__main__":
-    print(read_classification_from_file('hello.txt'))
+    print(read_classification_from_file('hello.txt')) 
