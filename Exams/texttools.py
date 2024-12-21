@@ -32,6 +32,4 @@ def compute_word_frequencies(filename):
     print(words_count)
     return words_count
     
-if __name__ == "__main__":
-    print(count_rows_and_words('hello.txt'))
-    compute_word_frequencies('hello.txt')
+c

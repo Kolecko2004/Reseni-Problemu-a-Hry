@@ -12,6 +12,8 @@ class MyPlayer:
         corners = [(0, 0), (7, 0), (0, 7), (7, 7)]
 
         for i in corners:
+            
+            
             if i in moves:
                 return i
 
