@@ -1,5 +1,35 @@
-Hi, 
-this is all the Python code from the time i was studying in CVUT FEL - Field: Open Informatics
+# RPH — Winter 2024
+RPH (Řešení problémů a hry) @ ČVUT FEL • Open Informatics
+Coursework & Projects by Vojtěch Drozd (2024)
 
-Have a nice day: Vojtech Drozd
-1.11.2024
+📘 About
+
+This repo contains all my work for PRP at
+Czech Technical University — Faculty of Electrical Engineering (FEL),
+Open Informatics program.
+
+<p align="center"> <img src="https://img.shields.io/badge/Language-PYTHON-blue?style=for-the-badge"/> <img src="https://img.shields.io/badge/School-ČVUT%20FEL-005eb8?style=for-the-badge"/> <img src="https://img.shields.io/badge/Semester-Winter%202025-orange?style=for-the-badge"/> </p>
+
+Inside, you'll find:
+
+🧠 Homework assignments
+
+🚀 Anything related to the course throughout the semester
+
+Feel free to browse, learn from the code, or use it as inspiration.
+
+📂 Structure                 
+Reseni-Problemu-a-Hry/              
+├── excercises/             
+├── home_works/        
+├── lectures/    
+├── practice/      
+└── ...      
+
+📫 Contact
+
+If you want to reach me, open an issue or contact me at:
+
+vojtech.drozd@protonmail [dot] com
+
+![Logo](https://upload.wikimedia.org/wikipedia/commons/a/a8/CVUT_znak.svg)
